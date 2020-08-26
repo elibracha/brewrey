@@ -4,6 +4,7 @@ import com.github.elibracha.brewrey.models.Beer;
 import com.github.elibracha.brewrey.repositories.BeerRepository;
 import com.github.elibracha.brewrey.web.dtos.BeerDto;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -23,7 +24,7 @@ public class BeerServiceImpl implements BeerService {
 
     @Override
     public List<BeerDto> getBeers(int page, int size) {
-        return beerRepository.findAll(PageRequest.of(page, size))
+        return beerRepository.findAll(PageRequest.of(page, size, Sort.by("beerName")))
                 .stream()
                 .map(BeerDto::new)
                 .collect(Collectors.toList());
