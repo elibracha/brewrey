@@ -1,7 +1,6 @@
 package com.github.elibracha.brewrey.web.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.github.elibracha.brewrey.models.Beer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +12,6 @@ import javax.validation.constraints.Null;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.time.ZoneId;
 import java.util.UUID;
 
 @Data
@@ -21,8 +19,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class BeerDto {
-    static final long serialVersionUID = -5815566940065181210L;
-
     @Null
     private UUID id;
 
@@ -52,15 +48,4 @@ public class BeerDto {
     private BigDecimal price;
 
     private Integer quantityOnHand;
-
-    public BeerDto(Beer beer) {
-        this.id = beer.getId();
-        this.version = beer.getVersion().intValue();
-        this.createdDate = OffsetDateTime.ofInstant(beer.getCreatedDate().toInstant(), ZoneId.systemDefault());
-        this.lastModifiedDate = OffsetDateTime.ofInstant(beer.getLastModifiedDate().toInstant(), ZoneId.systemDefault());
-        this.beerName = beer.getBeerName();
-        this.beerStyle = beer.getBeerStyle();
-        this.price = beer.getPrice();
-        this.upc = beer.getUpc();
-    }
 }

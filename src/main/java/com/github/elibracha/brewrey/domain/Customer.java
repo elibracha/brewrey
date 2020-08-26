@@ -1,4 +1,4 @@
-package com.github.elibracha.brewrey.models;
+package com.github.elibracha.brewrey.domain;
 
 import com.github.elibracha.brewrey.web.dtos.CustomerDto;
 import lombok.AllArgsConstructor;

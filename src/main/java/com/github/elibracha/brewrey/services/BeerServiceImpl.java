@@ -1,8 +1,10 @@
 package com.github.elibracha.brewrey.services;
 
-import com.github.elibracha.brewrey.models.Beer;
+import com.github.elibracha.brewrey.domain.Beer;
 import com.github.elibracha.brewrey.repositories.BeerRepository;
 import com.github.elibracha.brewrey.web.dtos.BeerDto;
+import com.github.elibracha.brewrey.web.mappers.BeerMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -14,19 +16,17 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class BeerServiceImpl implements BeerService {
 
     private BeerRepository beerRepository;
-
-    public BeerServiceImpl(BeerRepository beerRepository) {
-        this.beerRepository = beerRepository;
-    }
+    private BeerMapper mapper;
 
     @Override
     public List<BeerDto> getBeers(int page, int size) {
         return beerRepository.findAll(PageRequest.of(page, size, Sort.by("beerName")))
                 .stream()
-                .map(BeerDto::new)
+                .map(mapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -36,12 +36,12 @@ public class BeerServiceImpl implements BeerService {
         Beer beer = beerOptional.orElseThrow(
                 () -> new EntityNotFoundException(String.format("Beer with id %s not found", beerId))
         );
-        return new BeerDto(beer);
+        return mapper.toDto(beer);
     }
 
     @Override
     public UUID createBeer(BeerDto beerDto) {
-        Beer beer = beerRepository.save(new Beer(beerDto));
+        Beer beer = beerRepository.save(mapper.fromDto(beerDto));
         return beer.getId();
     }
 

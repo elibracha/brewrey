@@ -1,6 +1,5 @@
-package com.github.elibracha.brewrey.models;
+package com.github.elibracha.brewrey.domain;
 
-import com.github.elibracha.brewrey.web.dtos.BeerDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,8 +20,6 @@ import java.util.UUID;
 @Builder
 @Entity
 public class Beer {
-
-
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -49,13 +46,5 @@ public class Beer {
     private BigDecimal price;
 
     private Integer quantityOnHand;
-    private Integer quantityToBrew;
 
-    public Beer(BeerDto beerDto) {
-        this.beerName = beerDto.getBeerName();
-        this.beerStyle = beerDto.getBeerStyle();
-        this.upc = beerDto.getUpc();
-        this.price = beerDto.getPrice();
-        this.quantityOnHand = beerDto.getQuantityOnHand();
-    }
 }
