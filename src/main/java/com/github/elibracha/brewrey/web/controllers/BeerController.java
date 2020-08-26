@@ -3,7 +3,6 @@ package com.github.elibracha.brewrey.web.controllers;
 import com.github.elibracha.brewrey.services.BeerService;
 import com.github.elibracha.brewrey.web.dtos.BeerDto;
 import com.github.elibracha.brewrey.web.dtos.BeerPagedList;
-import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,10 +15,13 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/beer")
-@RequiredArgsConstructor
 public class BeerController {
 
     private final BeerService beerService;
+
+    public BeerController(BeerService beerService) {
+        this.beerService = beerService;
+    }
 
     @GetMapping
     public ResponseEntity<BeerPagedList> getBeer(@RequestParam(required = false) Optional<Integer> page,

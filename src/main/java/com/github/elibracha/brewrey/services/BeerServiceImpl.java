@@ -4,23 +4,29 @@ import com.github.elibracha.brewrey.domain.Beer;
 import com.github.elibracha.brewrey.repositories.BeerRepository;
 import com.github.elibracha.brewrey.web.dtos.BeerDto;
 import com.github.elibracha.brewrey.web.mappers.BeerMapper;
-import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.ValidationException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class BeerServiceImpl implements BeerService {
 
     private BeerRepository beerRepository;
     private BeerMapper mapper;
+
+    public BeerServiceImpl(BeerRepository beerRepository, BeerMapper mapper) {
+        this.beerRepository = beerRepository;
+        this.mapper = mapper;
+    }
 
     @Override
     public List<BeerDto> getBeers(int page, int size) {
@@ -32,36 +38,37 @@ public class BeerServiceImpl implements BeerService {
 
     @Override
     public BeerDto getBeerById(UUID beerId) {
-        Optional<Beer> beerOptional = beerRepository.findById(beerId);
-        Beer beer = beerOptional.orElseThrow(
-                () -> new EntityNotFoundException(String.format("Beer with id %s not found", beerId))
-        );
+        val beer = get(beerId);
         return mapper.toDto(beer);
     }
 
     @Override
     public UUID createBeer(BeerDto beerDto) {
-        Beer beer = beerRepository.save(mapper.fromDto(beerDto));
+        Predicate<String> cond = s -> beerRepository.findByUpc(beerDto.getUpc()).isPresent();
+        if (cond.test(beerDto.getUpc())) throw new ValidationException("Beer UPC must be unique and not empty");
+        val beer = beerRepository.save(mapper.fromDto(beerDto));
         return beer.getId();
     }
 
     @Override
     public UUID updateBeer(UUID beerId, BeerDto beerDto) {
-        Optional<Beer> beerOptional = beerRepository.findById(beerId);
-        Beer beer = beerOptional.orElseThrow(
-                () -> new EntityNotFoundException(String.format("Beer with id %s not found", beerId))
-        );
-        beer.setBeerName(beerDto.getBeerName());
-        beer.setBeerStyle(beerDto.getBeerStyle());
-        beer.setUpc(beerDto.getUpc());
-        beer.setPrice(beerDto.getPrice());
+        val beer = get(beerId);
 
+        mapper.merge(beer, beerDto);
         beerRepository.save(beer);
+
         return beer.getId();
     }
 
     @Override
-    public void deleteBeer(UUID id) {
-        beerRepository.deleteById(id);
+    public void deleteBeer(UUID beerId) {
+        val beer = get(beerId);
+        beerRepository.delete(beer);
+    }
+
+    private Beer get(UUID beerId) {
+        Optional<Beer> beerOptional = beerRepository.findById(beerId);
+        return beerOptional.orElseThrow(
+                () -> new EntityNotFoundException(String.format("Beer with id %s not found", beerId)));
     }
 }

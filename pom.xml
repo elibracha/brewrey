@@ -80,18 +80,8 @@
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
                         </path>
-                        <!-- other annotation processors -->
                     </annotationProcessorPaths>
                     <compilerArgs>
-                        <compilerArg>
-                            -Amapstruct.suppressGeneratorTimestamp=false
-                        </compilerArg>
-                        <compilerArg>
-                            -Amapstruct.suppressGeneratorVersionInfoComment=false
-                        </compilerArg>
-                        <compilerArg>
-                            -Amapstruct.unmappedTargetPolicy=ERROR
-                        </compilerArg>
                         <compilerArg>
                             -Amapstruct.defaultComponentModel=spring
                         </compilerArg>
