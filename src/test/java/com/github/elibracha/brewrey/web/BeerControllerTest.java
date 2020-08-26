@@ -2,6 +2,7 @@ package com.github.elibracha.brewrey.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.elibracha.brewrey.web.dtos.BeerDto;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,6 +22,8 @@ public class BeerControllerTest {
     @Autowired
     MockMvc mockMvc;
 
+    String location;
+
     public static String asJsonString(final Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);
@@ -29,57 +32,39 @@ public class BeerControllerTest {
         }
     }
 
-    @Test
-    public void findAllBeersTest() throws Exception {
-        this.mockMvc.perform(get("/api/v1/beer?page=0&size=10"))
-                .andDo(print()).andExpect(status().isOk());
-    }
-
-    @Test
-    public void findABeerByIdTest() throws Exception {
-        String location = this.createSampleEntity();
-
-        this.mockMvc.perform(
-                get(location)
-        ).andDo(print()).andExpect(status().isOk());
-    }
-
-    @Test
-    public void createBeerTest() throws Exception {
-        this.mockMvc.perform(
-                post("/api/v1/beer")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(new BeerDto(null, "Some Beer", "Some Style", 73423942L)))
-        ).andDo(print()).andExpect(status().isCreated()).andExpect(header().exists("Location"));
-    }
-
-    @Test
-    public void updateBeerTest() throws Exception {
-        String location = this.createSampleEntity();
-
-        this.mockMvc.perform(
-                put(location)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(new BeerDto(null, "Some Beer Updated", "Some Style Updated", 73423942L)))
-        ).andDo(print()).andExpect(status().isNoContent()).andExpect(header().string("Location", location));
-    }
-
-    @Test
-    public void deleteBeerTest() throws Exception {
-        String location = this.createSampleEntity();
-
-        this.mockMvc.perform(
-                delete(location)
-        ).andDo(print()).andExpect(status().isAccepted());
-    }
-
-    public String createSampleEntity() throws Exception {
+    @BeforeEach
+    public void createEntityTest() throws Exception {
         String location = this.mockMvc.perform(post("/api/v1/beer")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(new BeerDto(null, "Some Beer", "Some Style", 73423942L)))
         ).andExpect(header().exists("Location")).andReturn().getResponse().getHeader("Location");
 
         assert location != null;
-        return location;
+        this.location = location;
+    }
+
+    @Test
+    public void findAllBeersTest() throws Exception {
+        this.mockMvc.perform(get("/api/v1/beer")).andDo(print()).andExpect(status().isOk());
+    }
+
+    @Test
+    public void findABeerByIdTest() throws Exception {
+        this.mockMvc.perform(get(location)).andDo(print()).andExpect(status().isOk());
+    }
+
+    @Test
+    public void deleteBeerTest() throws Exception {
+        this.mockMvc.perform(delete(location)).andDo(print()).andExpect(status().isAccepted());
+    }
+
+    @Test
+    public void updateBeerTest() throws Exception {
+        this.mockMvc.perform(put(location)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(
+                        new BeerDto(null, "Some Beer Updated", "Some Style Updated", 73423942L)
+                ))
+        ).andDo(print()).andExpect(status().isNoContent()).andExpect(header().string("Location", location));
     }
 }
