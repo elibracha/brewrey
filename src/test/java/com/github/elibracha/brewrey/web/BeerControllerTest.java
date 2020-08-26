@@ -22,21 +22,19 @@ public class BeerControllerTest {
     @Autowired
     MockMvc mockMvc;
 
-    String location;
+    @Autowired
+    ObjectMapper objectMapper;
 
-    public static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+    String location;
 
     @BeforeEach
     public void createEntityTest() throws Exception {
         String location = this.mockMvc.perform(post("/api/v1/beer")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(new BeerDto(null, "Some Beer", "Some Style", 73423942L)))
+                .content(objectMapper.writeValueAsString(
+                        new BeerDto(null, "Some Beer",
+                                "Some Style", 73423942L)
+                ))
         ).andExpect(header().exists("Location")).andReturn().getResponse().getHeader("Location");
 
         assert location != null;
@@ -62,9 +60,9 @@ public class BeerControllerTest {
     public void updateBeerTest() throws Exception {
         this.mockMvc.perform(put(location)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(
-                        new BeerDto(null, "Some Beer Updated", "Some Style Updated", 73423942L)
-                ))
+                .content(objectMapper.writeValueAsString(
+                        new BeerDto(null, "Some Beer Updated",
+                                "Some Style Updated", 73423942L)))
         ).andDo(print()).andExpect(status().isNoContent()).andExpect(header().string("Location", location));
     }
 }
