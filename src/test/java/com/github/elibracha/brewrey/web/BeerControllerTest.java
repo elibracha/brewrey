@@ -1,5 +1,7 @@
 package com.github.elibracha.brewrey.web;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.elibracha.brewrey.web.dtos.BeerDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,14 +34,20 @@ public class BeerControllerTest {
     String endpointPrefix = "/api/v1/beer";
 
     @BeforeEach
+    public void setup() {
+        objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+    }
+
+    @BeforeEach
     public void createEntityTest() throws Exception {
         String location = this.mockMvc.perform(
                 post(endpointPrefix)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(
-                                BeerDto.builder().beerName("Some Beer Name")
+                                BeerDto.builder()
+                                        .beerName("Some Beer Name")
                                         .beerStyle("Some Beer Style")
-                                        .upc("23213123")
+                                        .upc(String.valueOf(Double.valueOf(Math.random() * Integer.MAX_VALUE).longValue()))
                                         .price(BigDecimal.valueOf(341L))
                         ))
         ).andExpect(header().exists("Location")).andReturn().getResponse().getHeader("Location");
