@@ -1,4 +1,8 @@
-GET http://localhost:8080/api/v1/beer/99f81939-a1af-469d-9d5b-412ab0d94b62
+GET http://localhost:8080/api/v1/beer?page=0&size=10
+Accept: application/json
+
+###
+GET http://localhost:8080/api/v1/beer/730922fc-233f-4ea0-a744-5e25768619d3
 Accept: application/json
 
 ###

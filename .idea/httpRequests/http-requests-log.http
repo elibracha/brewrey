@@ -1,3 +1,155 @@
+GET http://localhost:8080/api/v1/beer?page=0&size=10
+Accept: application/json
+
+<> 2020-08-26T054425.200.json
+
+###
+
+POST http://localhost:8080/api/v1/beer
+Content-Type: application/json
+
+{
+  "beerName": "This The Beer Name",
+  "beerStyle": "Some Style",
+  "upc": 1232132134
+}
+
+###
+
+POST http://localhost:8080/api/v1/beer
+Content-Type: application/json
+
+{
+  "beerName": "This The Beer Name",
+  "beerStyle": "Some Style",
+  "upc": 1232132134
+}
+
+###
+
+POST http://localhost:8080/api/v1/beer
+Content-Type: application/json
+
+{
+  "beerName": "This The Beer Name",
+  "beerStyle": "Some Style",
+  "upc": 1232132134
+}
+
+###
+
+POST http://localhost:8080/api/v1/beer
+Content-Type: application/json
+
+{
+  "beerName": "This The Beer Name",
+  "beerStyle": "Some Style",
+  "upc": 1232132134
+}
+
+###
+
+GET http://localhost:8080/api/v1/beer?page=1&size=10
+Accept: application/json
+
+<> 2020-08-26T054118.200.json
+
+###
+
+POST http://localhost:8080/api/v1/beer
+Content-Type: application/json
+
+{
+  "beerName": "This The Beer Name",
+  "beerStyle": "Some Style",
+  "upc": 1232132134
+}
+
+###
+
+POST http://localhost:8080/api/v1/beer
+Content-Type: application/json
+
+{
+  "beerName": "This The Beer Name",
+  "beerStyle": "Some Style",
+  "upc": 1232132134
+}
+
+###
+
+POST http://localhost:8080/api/v1/beer
+Content-Type: application/json
+
+{
+  "beerName": "This The Beer Name",
+  "beerStyle": "Some Style",
+  "upc": 1232132134
+}
+
+###
+
+GET http://localhost:8080/api/v1/beer?page=1&size=10
+Accept: application/json
+
+<> 2020-08-26T054025.200.json
+
+###
+
+GET http://localhost:8080/api/v1/beer/730922fc-233f-4ea0-a744-5e25768619d3
+Accept: application/json
+
+<> 2020-08-26T053408.200.json
+
+###
+
+POST http://localhost:8080/api/v1/beer
+Content-Type: application/json
+
+{
+  "beerName": "This The Beer Name",
+  "beerStyle": "Some Style",
+  "upc": 1232132134
+}
+
+###
+
+PUT http://localhost:8080/api/v1/beer/99f81939-a1af-469d-9d5b-412ab0d94b62
+Content-Type: application/json
+
+{
+  "beerName": "This The Beer Name updated",
+  "beerStyle": "Some Style Updated",
+  "upc": 43663434349
+}
+
+###
+
+GET http://localhost:8080/api/v1/beer?page=1&size=10
+Accept: application/json
+
+<> 2020-08-26T053324.200.json
+
+###
+
+POST http://localhost:8080/api/v1/beer
+Content-Type: application/json
+
+{
+  "beerName": "This The Beer Name",
+  "beerStyle": "Some Style",
+  "upc": 1232132134
+}
+
+###
+
+GET http://localhost:8080/api/v1/beer?page=1&size=10
+Accept: application/json
+
+<> 2020-08-26T052517.200.json
+
+###
+
 DELETE http://localhost:8080/api/v1/customer/99f81939-a1af-469d-9d5b-412ab0d94b62
 
 ###
