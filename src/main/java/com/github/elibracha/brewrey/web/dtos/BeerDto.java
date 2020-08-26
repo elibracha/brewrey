@@ -40,10 +40,10 @@ public class BeerDto {
     @NotBlank
     private String beerName;
 
-    @NotNull
+    @NotBlank
     private String beerStyle;
 
-    @NotNull
+    @NotBlank
     private String upc;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
