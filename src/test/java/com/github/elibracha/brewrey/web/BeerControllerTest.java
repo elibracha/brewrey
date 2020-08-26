@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -35,8 +37,10 @@ public class BeerControllerTest {
                 post(endpointPrefix)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(
-                                new BeerDto(null, "Some Beer",
-                                        "Some Style", 73423942L)
+                                BeerDto.builder().beerName("Some Beer Name")
+                                        .beerStyle("Some Beer Style")
+                                        .upc("23213123")
+                                        .price(BigDecimal.valueOf(341L))
                         ))
         ).andExpect(header().exists("Location")).andReturn().getResponse().getHeader("Location");
 
@@ -64,8 +68,10 @@ public class BeerControllerTest {
         this.mockMvc.perform(put(entityLocation)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(
-                        new BeerDto(null, "Some Beer Updated",
-                                "Some Style Updated", 73423942L)))
+                        BeerDto.builder().beerName("Some Beer Name")
+                                .beerStyle("Some Beer Style")
+                                .upc("23213123")
+                                .price(BigDecimal.valueOf(341L))))
         ).andDo(print()).andExpect(status().isNoContent()).andExpect(header().string("Location", entityLocation));
     }
 }
