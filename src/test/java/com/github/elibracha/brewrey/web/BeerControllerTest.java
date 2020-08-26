@@ -25,44 +25,47 @@ public class BeerControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    String location;
+    String entityLocation;
+
+    String endpointPrefix = "/api/v1/beer";
 
     @BeforeEach
     public void createEntityTest() throws Exception {
-        String location = this.mockMvc.perform(post("/api/v1/beer")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(
-                        new BeerDto(null, "Some Beer",
-                                "Some Style", 73423942L)
-                ))
+        String location = this.mockMvc.perform(
+                post(endpointPrefix)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(
+                                new BeerDto(null, "Some Beer",
+                                        "Some Style", 73423942L)
+                        ))
         ).andExpect(header().exists("Location")).andReturn().getResponse().getHeader("Location");
 
         assert location != null;
-        this.location = location;
+        this.entityLocation = location;
     }
 
     @Test
     public void findAllBeersTest() throws Exception {
-        this.mockMvc.perform(get("/api/v1/beer")).andDo(print()).andExpect(status().isOk());
+        this.mockMvc.perform(get(endpointPrefix)).andDo(print()).andExpect(status().isOk());
     }
 
     @Test
     public void findABeerByIdTest() throws Exception {
-        this.mockMvc.perform(get(location)).andDo(print()).andExpect(status().isOk());
+        this.mockMvc.perform(get(entityLocation)).andDo(print()).andExpect(status().isOk());
     }
 
     @Test
     public void deleteBeerTest() throws Exception {
-        this.mockMvc.perform(delete(location)).andDo(print()).andExpect(status().isAccepted());
+        this.mockMvc.perform(delete(entityLocation)).andDo(print()).andExpect(status().isAccepted());
     }
 
     @Test
     public void updateBeerTest() throws Exception {
-        this.mockMvc.perform(put(location)
+        this.mockMvc.perform(put(entityLocation)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(
                         new BeerDto(null, "Some Beer Updated",
                                 "Some Style Updated", 73423942L)))
-        ).andDo(print()).andExpect(status().isNoContent()).andExpect(header().string("Location", location));
+        ).andDo(print()).andExpect(status().isNoContent()).andExpect(header().string("Location", entityLocation));
     }
 }
