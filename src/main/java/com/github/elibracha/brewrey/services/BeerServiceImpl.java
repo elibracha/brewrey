@@ -8,7 +8,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import javax.validation.ValidationException;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -40,7 +39,6 @@ public class BeerServiceImpl implements BeerService {
 
     @Override
     public UUID createBeer(BeerDto beerDto) {
-        if (beerRepository.findByUpc(beerDto.getUpc()).isPresent()) throw new ValidationException();
         val beer = beerRepository.save(mapper.fromDto(beerDto));
         return beer.getId();
     }

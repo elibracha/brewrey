@@ -16,6 +16,7 @@ public interface BeerMapper {
         beer.setBeerName(beerDto.getBeerName());
         beer.setBeerStyle(beerDto.getBeerStyle());
         beer.setPrice(beerDto.getPrice());
+        beer.setUpc(beerDto.getUpc());
     }
 
 }
