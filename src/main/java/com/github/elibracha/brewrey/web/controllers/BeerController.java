@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -21,9 +22,10 @@ public class BeerController {
         this.beerService = beerService;
     }
 
-    @GetMapping(params = {"page", "size"})
-    public ResponseEntity<BeerPagedList> getBeer(@RequestParam("page") int page, @RequestParam("size") int size) {
-        List<BeerDto> beers = beerService.getBeers(page, size);
+    @GetMapping
+    public ResponseEntity<BeerPagedList> getBeer(@RequestParam(required = false) Optional<Integer> page,
+                                                 @RequestParam(required = false) Optional<Integer> size) {
+        List<BeerDto> beers = beerService.getBeers(page.orElse(0), size.orElse(10));
         BeerPagedList beerPagedList = new BeerPagedList(beers);
         return new ResponseEntity<>(beerPagedList, HttpStatus.OK);
     }
