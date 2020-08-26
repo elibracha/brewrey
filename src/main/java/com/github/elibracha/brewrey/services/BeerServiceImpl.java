@@ -6,7 +6,9 @@ import com.github.elibracha.brewrey.web.dtos.BeerDto;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -29,7 +31,11 @@ public class BeerServiceImpl implements BeerService {
 
     @Override
     public BeerDto getBeerById(UUID beerId) {
-        return BeerDto.builder().id(beerId).build();
+        Optional<Beer> beerOptional = beerRepository.findById(beerId);
+        Beer beer = beerOptional.orElseThrow(
+                () -> new EntityNotFoundException(String.format("Beer with id %s not found", beerId))
+        );
+        return new BeerDto(beer);
     }
 
     @Override
@@ -39,12 +45,21 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public UUID updateBeer(UUID id, BeerDto beerDto) {
-        return id;
+    public UUID updateBeer(UUID beerId, BeerDto beerDto) {
+        Optional<Beer> beerOptional = beerRepository.findById(beerId);
+        Beer beer = beerOptional.orElseThrow(
+                () -> new EntityNotFoundException(String.format("Beer with id %s not found", beerId))
+        );
+        beer.setBeerName(beerDto.getBeerName());
+        beer.setBeerStyle(beerDto.getBeerStyle());
+        beer.setUpc(beerDto.getUpc());
+
+        beerRepository.save(beer);
+        return beer.getId();
     }
 
     @Override
     public void deleteBeer(UUID id) {
-
+        beerRepository.deleteById(id);
     }
 }
