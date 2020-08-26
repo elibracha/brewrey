@@ -2,7 +2,6 @@ package com.github.elibracha.brewrey.web.controllers;
 
 import com.github.elibracha.brewrey.web.dtos.BeerDto;
 import com.github.elibracha.brewrey.services.BeerService;
-import com.github.elibracha.brewrey.web.dtos.CustomerDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +13,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/beer")
 public class BeerController {
 
-    private BeerService beerService;
+    private final BeerService beerService;
 
     public BeerController(BeerService beerService){
         this.beerService = beerService;
