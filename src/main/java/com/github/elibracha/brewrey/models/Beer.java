@@ -1,5 +1,6 @@
-package com.github.elibracha.brewrey.web.dtos;
+package com.github.elibracha.brewrey.models;
 
+import com.github.elibracha.brewrey.web.dtos.BeerDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,9 +12,15 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BeerDto {
+public class Beer {
     private UUID id;
     private String beerName;
     private String beerStyle;
     private Long upc;
+
+    public Beer(BeerDto beerDto) {
+        this.beerName = beerDto.getBeerName();
+        this.beerStyle = beerDto.getBeerStyle();
+        this.upc = beerDto.getUpc();
+    }
 }
