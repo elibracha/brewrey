@@ -40,9 +40,9 @@ public class CustomerController{
         return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void>  deleteCustomer(UUID id) {
-        customerService.deleteCustomer(id);
+    @DeleteMapping("{customerId}")
+    public ResponseEntity<Void> deleteCustomer(@PathVariable UUID customerId) {
+        customerService.deleteCustomer(customerId);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 }

@@ -1,0 +1,21 @@
+GET http://localhost:8080/api/v1/customer/99f81939-a1af-469d-9d5b-412ab0d94b62
+Accept: application/json
+
+###
+POST http://localhost:8080/api/v1/customer
+Content-Type: application/json
+
+{
+  "name": "Some Beer"
+}
+
+###
+PUT http://localhost:8080/api/v1/customer/99f81939-a1af-469d-9d5b-412ab0d94b62
+Content-Type: application/json
+
+{
+  "name": "Some Beer Updated"
+}
+
+###
+DELETE http://localhost:8080/api/v1/customer/99f81939-a1af-469d-9d5b-412ab0d94b62

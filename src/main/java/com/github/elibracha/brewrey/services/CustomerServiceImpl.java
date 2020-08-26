@@ -19,7 +19,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public UUID updateCustomer(UUID id, CustomerDto customer) {
-        return UUID.randomUUID();
+        return id;
     }
 
     @Override

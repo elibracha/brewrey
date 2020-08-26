@@ -1,7 +1,6 @@
 package com.github.elibracha.brewrey.services;
 
 import com.github.elibracha.brewrey.web.dtos.BeerDto;
-import com.github.elibracha.brewrey.web.dtos.CustomerDto;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -19,8 +18,8 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public UUID updateBeer(UUID id, CustomerDto beer) {
-        return UUID.randomUUID();
+    public UUID updateBeer(UUID id, BeerDto beer) {
+        return id;
     }
 
     @Override
