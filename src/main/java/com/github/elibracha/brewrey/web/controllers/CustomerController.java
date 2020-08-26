@@ -25,7 +25,7 @@ public class CustomerController{
     }
 
     @PostMapping
-    public ResponseEntity<Void> createCustomer(CustomerDto customer) {
+    public ResponseEntity<Void> createCustomer(@RequestBody CustomerDto customer) {
         UUID id = customerService.createCustomer(customer);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", "/api/v1/customer/" + id);
@@ -33,7 +33,7 @@ public class CustomerController{
     }
 
     @PutMapping("{customerId}")
-    public ResponseEntity<Void> updateCustomer(@PathVariable UUID customerId, CustomerDto customer) {
+    public ResponseEntity<Void> updateCustomer(@PathVariable UUID customerId, @RequestBody CustomerDto customer) {
         UUID id = customerService.updateCustomer(customerId, customer);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", "/api/v1/customer/" + id);
