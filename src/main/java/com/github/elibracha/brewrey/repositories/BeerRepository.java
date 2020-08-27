@@ -9,5 +9,6 @@ import java.util.UUID;
 
 @Repository
 public interface BeerRepository extends JpaRepository<Beer, UUID> {
-    Optional<String> findByUpc(String upc);
+
+    Optional<Beer> findByUpc(String upc);
 }

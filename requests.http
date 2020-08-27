@@ -2,7 +2,7 @@ GET http://localhost:8080/api/v1/beer?page=0&size=10
 Accept: application/json
 
 ###
-GET http://localhost:8080/api/v1/beer/735fc35c-0072-49c7-8709-1fe317818a97
+GET http://localhost:8080/api/v1/beer/b0c3fe4a-f381-464b-8263-a45a4f0a03e1
 Accept: application/json
 
 ###
@@ -18,15 +18,15 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:8080/api/v1/beer/735fc35c-0072-49c7-8709-1fe317818a97
+PUT http://localhost:8080/api/v1/beer/b0c3fe4a-f381-464b-8263-a45a4f0a03e1
 Content-Type: application/json
 
 {
   "beerName": "This The Beer Name updated",
   "beerStyle": "Some Style Updated",
-  "upc": 7873521026,
+  "upc": 7873521025,
   "price": 436
 }
 
 ###
-DELETE http://localhost:8080/api/v1/beer/735fc35c-0072-49c7-8709-1fe317818a97
+DELETE http://localhost:8080/api/v1/beer/b0c3fe4a-f381-464b-8263-a45a4f0a03e1
