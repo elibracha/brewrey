@@ -12,7 +12,7 @@ Content-Type: application/json
 {
   "beerName": "This The Beer Name",
   "beerStyle": "Some Style",
-  "upc": 7873521026,
+  "upc": 787353324234,
   "price": 123,
   "quantityOnHand": 50
 }

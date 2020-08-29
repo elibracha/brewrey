@@ -6,6 +6,7 @@ import com.github.elibracha.brewrey.web.dtos.BeerDto;
 import com.github.elibracha.brewrey.web.mappers.BeerMapper;
 import lombok.AllArgsConstructor;
 import lombok.val;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class BeerServiceImpl implements BeerService {
     private BeerMapper mapper;
 
     @Override
+    @Cacheable(cacheNames = "BeerListCache")
     public List<BeerDto> getBeers(int page, int size) {
         return beerRepository.findAll(PageRequest.of(page, size, Sort.by("beerName").descending()))
                 .stream()
@@ -30,6 +32,7 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
+    @Cacheable(cacheNames = "BeerCache", key = "#beerId")
     public BeerDto getBeerById(UUID beerId) {
         val beer = beerRepository.findById(beerId).orElseThrow(ExceptionProvider.ENTITY_NOT_FOUND_ERROR_SUPPLER);
         return mapper.toDto(beer);
