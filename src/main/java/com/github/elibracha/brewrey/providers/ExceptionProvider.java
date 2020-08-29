@@ -1,4 +1,4 @@
-package com.github.elibracha.brewrey.suppliers;
+package com.github.elibracha.brewrey.providers;
 
 import com.github.elibracha.brewrey.domain.Beer;
 

@@ -1,7 +1,7 @@
 package com.github.elibracha.brewrey.services;
 
+import com.github.elibracha.brewrey.providers.ExceptionProvider;
 import com.github.elibracha.brewrey.repositories.BeerRepository;
-import com.github.elibracha.brewrey.suppliers.ExceptionProvider;
 import com.github.elibracha.brewrey.web.dtos.BeerDto;
 import com.github.elibracha.brewrey.web.mappers.BeerMapper;
 import lombok.AllArgsConstructor;
