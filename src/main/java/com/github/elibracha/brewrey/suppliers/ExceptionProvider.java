@@ -6,7 +6,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class ExceptionSupplier {
+public class ExceptionProvider {
     public final static Supplier<EntityNotFoundException> ENTITY_NOT_FOUND_ERROR_SUPPLER =
             () -> new EntityNotFoundException("Beer not found");
 
