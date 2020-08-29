@@ -4,6 +4,7 @@ import com.github.elibracha.brewrey.repositories.BeerRepository;
 import com.github.elibracha.brewrey.suppliers.ExceptionProvider;
 import com.github.elibracha.brewrey.web.dtos.BeerDto;
 import com.github.elibracha.brewrey.web.mappers.BeerMapper;
+import lombok.AllArgsConstructor;
 import lombok.val;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -14,15 +15,11 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class BeerServiceImpl implements BeerService {
 
     private BeerRepository beerRepository;
     private BeerMapper mapper;
-
-    public BeerServiceImpl(BeerRepository beerRepository, BeerMapper mapper) {
-        this.beerRepository = beerRepository;
-        this.mapper = mapper;
-    }
 
     @Override
     public List<BeerDto> getBeers(int page, int size) {
