@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -23,37 +24,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class BeerControllerTest {
 
+    private static final UUID STATIC_BEER_ID_1 = UUID.fromString("8419eedf-9e67-4993-8ee4-51014f676f21");
+    private static final UUID STATIC_BEER_ID_2 = UUID.fromString("fd229077-101b-4ca0-a1e1-62e5c038f991");
+
     @Autowired
     MockMvc mockMvc;
 
     @Autowired
     ObjectMapper objectMapper;
 
-    String entityLocation;
-
-    String endpointPrefix = "/api/v1/beer";
+    String endpointPrefix = "/api/v1/beer/";
 
     @BeforeEach
     public void setup() {
         objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-    }
-
-    @BeforeEach
-    public void createEntityTest() throws Exception {
-        String location = this.mockMvc.perform(
-                post(endpointPrefix)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(
-                                BeerDto.builder()
-                                        .beerName("Some Beer Name")
-                                        .beerStyle("Some Beer Style")
-                                        .upc(String.valueOf(Double.valueOf(Math.random() * Integer.MAX_VALUE).longValue()))
-                                        .price(BigDecimal.valueOf(341L))
-                        ))
-        ).andExpect(header().exists("Location")).andReturn().getResponse().getHeader("Location");
-
-        assert location != null;
-        this.entityLocation = location;
     }
 
     @Test
@@ -63,23 +47,38 @@ public class BeerControllerTest {
 
     @Test
     public void findABeerByIdTest() throws Exception {
-        this.mockMvc.perform(get(entityLocation)).andDo(print()).andExpect(status().isOk());
+        this.mockMvc.perform(get(endpointPrefix + STATIC_BEER_ID_1)).andDo(print()).andExpect(status().isOk());
     }
 
     @Test
     public void deleteBeerTest() throws Exception {
-        this.mockMvc.perform(delete(entityLocation)).andDo(print()).andExpect(status().isAccepted());
+        this.mockMvc.perform(delete(endpointPrefix + STATIC_BEER_ID_2)).andDo(print()).andExpect(status().isAccepted());
     }
 
     @Test
     public void updateBeerTest() throws Exception {
-        this.mockMvc.perform(put(entityLocation)
+        this.mockMvc.perform(put(endpointPrefix + STATIC_BEER_ID_1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(
                         BeerDto.builder().beerName("Some Beer Name")
                                 .beerStyle("Some Beer Style")
                                 .upc("23213123")
                                 .price(BigDecimal.valueOf(341L))))
-        ).andDo(print()).andExpect(status().isNoContent()).andExpect(header().string("Location", entityLocation));
+        ).andDo(print()).andExpect(status().isNoContent()).andExpect(header().exists("Location"));
+    }
+
+    @Test
+    public void createEntityTest() throws Exception {
+        this.mockMvc.perform(
+                post(endpointPrefix)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(
+                                BeerDto.builder()
+                                        .beerName("Some Beer Name")
+                                        .beerStyle("Some Beer Style")
+                                        .upc(String.valueOf(Double.valueOf(Math.random() * Integer.MAX_VALUE).longValue()))
+                                        .price(BigDecimal.valueOf(341L))
+                        ))
+        ).andExpect(status().isCreated()).andExpect(header().exists("Location"));
     }
 }
