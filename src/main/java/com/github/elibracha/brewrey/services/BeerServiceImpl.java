@@ -26,7 +26,7 @@ public class BeerServiceImpl implements BeerService {
 
     @Override
     public List<BeerDto> getBeers(int page, int size) {
-        return beerRepository.findAll(PageRequest.of(page, size, Sort.by("beerName")))
+        return beerRepository.findAll(PageRequest.of(page, size, Sort.by("beerName").descending()))
                 .stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
