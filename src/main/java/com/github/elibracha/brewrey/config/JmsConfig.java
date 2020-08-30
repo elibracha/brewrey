@@ -8,7 +8,8 @@ import org.springframework.jms.support.converter.MessageType;
 
 @Configuration
 public class JmsConfig {
-    public final static String QUEUE = "event_bus";
+    public final static String UPDATE_TOPIC = "event_update";
+    public final static String CREATE_TOPIC = "event_create";
 
     @Bean
     public MessageConverter messageConverter() {

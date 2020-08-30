@@ -1,18 +1,17 @@
-package com.github.elibracha.brewrey.events;
+package com.github.elibracha.brewrey.domain.events;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BeerUpdateEvent implements Serializable {
+public class BeerCreatedEvent extends BeerEvent {
     private UUID id;
     private EventType type;
     private String content;

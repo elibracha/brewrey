@@ -1,6 +1,7 @@
 package com.github.elibracha.brewrey.services;
 
 import com.github.elibracha.brewrey.config.JmsConfig;
+import com.github.elibracha.brewrey.domain.events.EventType;
 import com.github.elibracha.brewrey.providers.ExceptionProvider;
 import com.github.elibracha.brewrey.repositories.BeerRepository;
 import com.github.elibracha.brewrey.web.dtos.BeerDto;
@@ -14,6 +15,7 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -47,8 +49,9 @@ public class BeerServiceImpl implements BeerService {
         val beer = beerRepository.save(mapper.fromDto(beerDto));
 
         val dto = mapper.toDto(beer);
-
-        jmsTemplate.convertAndSend(JmsConfig.QUEUE, mapper.fromDtoToMessage(dto));
+        Optional.of(mapper.fromDtoToMessage(dto, EventType.BEER_CREATE_EVENT)).ifPresent(msg ->
+                jmsTemplate.convertAndSend(JmsConfig.CREATE_TOPIC, msg)
+        );
         return beer.getId();
     }
 
@@ -60,8 +63,9 @@ public class BeerServiceImpl implements BeerService {
         beerRepository.save(beer);
 
         val dto = mapper.toDto(beer);
-
-        jmsTemplate.convertAndSend(JmsConfig.QUEUE, mapper.fromDtoToMessage(dto));
+        Optional.of(mapper.fromDtoToMessage(dto, EventType.BEER_UPDATE_EVENT)).ifPresent(msg ->
+                jmsTemplate.convertAndSend(JmsConfig.UPDATE_TOPIC, msg)
+        );
         return beer.getId();
     }
 
