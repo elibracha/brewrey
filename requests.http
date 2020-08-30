@@ -18,7 +18,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:8080/api/v1/beer/7435a88d-1522-4ade-8b98-10ac258fa33e
+PUT http://localhost:8080/api/v1/beer/228b4ae6-62de-4acb-b5f7-a175b6d8780b
 Content-Type: application/json
 
 {
@@ -29,4 +29,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:8080/api/v1/beer/b0c3fe4a-f381-464b-8263-a45a4f0a03e1
+DELETE http://localhost:8080/api/v1/beer/228b4ae6-62de-4acb-b5f7-a175b6d8780b

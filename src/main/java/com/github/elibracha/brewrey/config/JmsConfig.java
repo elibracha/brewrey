@@ -8,8 +8,9 @@ import org.springframework.jms.support.converter.MessageType;
 
 @Configuration
 public class JmsConfig {
-    public final static String UPDATE_TOPIC = "event_update";
-    public final static String CREATE_TOPIC = "event_create";
+    public final static String UPDATE_BEER_TOPIC = "beer_update_topic";
+    public final static String CREATE_BEER_TOPIC = "beer_create_topic";
+    public final static String DELETE_BEER_TOPIC = "beer_delete_topic";
 
     @Bean
     public MessageConverter messageConverter() {
