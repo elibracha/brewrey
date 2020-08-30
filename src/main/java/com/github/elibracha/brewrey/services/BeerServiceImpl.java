@@ -45,6 +45,10 @@ public class BeerServiceImpl implements BeerService {
     public UUID createBeer(BeerDto beerDto) {
         beerRepository.findByUpc(beerDto.getUpc()).ifPresent(ExceptionProvider.UPC_FOUND_ERROR_CONSUMER);
         val beer = beerRepository.save(mapper.fromDto(beerDto));
+
+        val dto = mapper.toDto(beer);
+
+        jmsTemplate.convertAndSend(JmsConfig.QUEUE, mapper.fromDtoToMessage(dto));
         return beer.getId();
     }
 
