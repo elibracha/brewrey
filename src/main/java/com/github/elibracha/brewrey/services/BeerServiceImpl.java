@@ -1,5 +1,6 @@
 package com.github.elibracha.brewrey.services;
 
+import com.github.elibracha.brewrey.config.JmsConfig;
 import com.github.elibracha.brewrey.providers.ExceptionProvider;
 import com.github.elibracha.brewrey.repositories.BeerRepository;
 import com.github.elibracha.brewrey.web.dtos.BeerDto;
@@ -9,6 +10,7 @@ import lombok.val;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 public class BeerServiceImpl implements BeerService {
 
     private BeerRepository beerRepository;
+    private JmsTemplate jmsTemplate;
     private BeerMapper mapper;
 
     @Override
@@ -52,6 +55,9 @@ public class BeerServiceImpl implements BeerService {
         mapper.merge(beer, beerDto);
         beerRepository.save(beer);
 
+        val dto = mapper.toDto(beer);
+
+        jmsTemplate.convertAndSend(JmsConfig.QUEUE, mapper.fromDtoToMessage(dto));
         return beer.getId();
     }
 

@@ -18,7 +18,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:8080/api/v1/beer/b0c3fe4a-f381-464b-8263-a45a4f0a03e1
+PUT http://localhost:8080/api/v1/beer/d5a92dae-a312-4462-9929-2c17f569cf42
 Content-Type: application/json
 
 {
