@@ -23,9 +23,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class BeerServiceImpl implements BeerService {
 
-    private BeerRepository beerRepository;
-    private JmsTemplate jmsTemplate;
-    private BeerMapper mapper;
+    private final BeerRepository beerRepository;
+    private final JmsTemplate jmsTemplate;
+    private final BeerMapper mapper;
 
     @Override
     @Cacheable(cacheNames = "BeerListCache")
