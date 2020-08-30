@@ -1,5 +1,6 @@
 package com.github.elibracha.brewrey.domain.events;
 
+import com.github.elibracha.brewrey.domain.Beer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 public class BeerCreatedEvent extends BeerEvent {
-    private UUID id;
+    private UUID messageId;
+    private UUID beerId;
     private EventType type;
-    private String content;
+    private Beer content;
 }

@@ -48,8 +48,7 @@ public class BeerServiceImpl implements BeerService {
         beerRepository.findByUpc(beerDto.getUpc()).ifPresent(ExceptionProvider.UPC_FOUND_ERROR_CONSUMER);
         val beer = beerRepository.save(mapper.fromDto(beerDto));
 
-        val dto = mapper.toDto(beer);
-        Optional.of(mapper.fromDtoToMessage(dto, EventType.BEER_CREATE_EVENT)).ifPresent(msg ->
+        Optional.of(mapper.fromDtoToMessage(beer, EventType.BEER_CREATE_EVENT)).ifPresent(msg ->
                 jmsTemplate.convertAndSend(JmsConfig.CREATE_TOPIC, msg)
         );
         return beer.getId();
@@ -62,8 +61,7 @@ public class BeerServiceImpl implements BeerService {
         mapper.merge(beer, beerDto);
         beerRepository.save(beer);
 
-        val dto = mapper.toDto(beer);
-        Optional.of(mapper.fromDtoToMessage(dto, EventType.BEER_UPDATE_EVENT)).ifPresent(msg ->
+        Optional.of(mapper.fromDtoToMessage(beer, EventType.BEER_UPDATE_EVENT)).ifPresent(msg ->
                 jmsTemplate.convertAndSend(JmsConfig.UPDATE_TOPIC, msg)
         );
         return beer.getId();

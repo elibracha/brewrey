@@ -1,7 +1,5 @@
 package com.github.elibracha.brewrey.web.mappers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.elibracha.brewrey.domain.Beer;
 import com.github.elibracha.brewrey.domain.events.BeerCreatedEvent;
 import com.github.elibracha.brewrey.domain.events.BeerEvent;
@@ -21,27 +19,21 @@ public interface BeerMapper {
 
     Beer fromDto(BeerDto beerDto);
 
-    default BeerEvent fromDtoToMessage(BeerDto beerDto, EventType type) {
-        String content = null;
-
-        try {
-            content = new ObjectMapper().writeValueAsString(beerDto);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
+    default BeerEvent fromDtoToMessage(Beer beer, EventType type) {
         switch (type) {
             case BEER_UPDATE_EVENT:
                 return BeerUpdateEvent.builder()
-                        .id(UUID.randomUUID())
+                        .messageId(UUID.randomUUID())
+                        .beerId(beer.getId())
                         .type(type)
-                        .content(content)
+                        .content(beer)
                         .build();
             case BEER_CREATE_EVENT:
                 return BeerCreatedEvent.builder()
-                        .id(UUID.randomUUID())
+                        .messageId(UUID.randomUUID())
+                        .beerId(beer.getId())
                         .type(type)
-                        .content(content)
+                        .content(beer)
                         .build();
         }
 
