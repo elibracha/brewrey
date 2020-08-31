@@ -1,0 +1,2 @@
+INSERT INTO beer (id, beer_name, beer_style, created_date, last_modified_date, price, upc, version, quantity_on_hand) values ('8419eedf-9e67-4993-8ee4-51014f676f21', 'Some Beer Name', 'Some Beer Style', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 324, '222222222', 0, 50)
+INSERT INTO beer (id, beer_name, beer_style, created_date, last_modified_date, price, upc, version, quantity_on_hand) values ('fd229077-101b-4ca0-a1e1-62e5c038f991', 'Some Beer Name', 'Some Beer Style', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 324, '444444444', 0, 50)

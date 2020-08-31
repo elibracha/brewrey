@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+  mq:
+    image: vromero/activemq-artemis
+    restart: always
+    environment:
+      ARTEMIS_USERNAME: root
+      ARTEMIS_PASSWORD: 12345
+    ports:
+      - "8161:8161"
+      - "61616:61616"
